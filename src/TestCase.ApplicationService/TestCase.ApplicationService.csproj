@@ -1,15 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TestCase.Container\TestCase.Container.csproj" />
+      <Folder Include="Handler\Command" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\TestCase.Contract\TestCase.Contract.csproj" />
+      <ProjectReference Include="..\TestCase.Domain\TestCase.Domain.csproj" />
     </ItemGroup>
 
 </Project>
