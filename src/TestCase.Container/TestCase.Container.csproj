@@ -17,6 +17,7 @@
       <ProjectReference Include="..\TestCase.ApplicationService\TestCase.ApplicationService.csproj" />
       <ProjectReference Include="..\TestCase.Contract\TestCase.Contract.csproj" />
       <ProjectReference Include="..\TestCase.Domain\TestCase.Domain.csproj" />
+      <ProjectReference Include="..\TestCase.Repository\TestCase.Repository.csproj" />
     </ItemGroup>
 
 </Project>

@@ -7,11 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Request\Command" />
+      <PackageReference Include="MediatR" Version="11.1.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="MediatR" Version="11.1.0" />
+      <ProjectReference Include="..\TestCase.Domain\TestCase.Domain.csproj" />
     </ItemGroup>
 
 </Project>
