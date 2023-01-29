@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Handler\Command" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\TestCase.Contract\TestCase.Contract.csproj" />
       <ProjectReference Include="..\TestCase.Domain\TestCase.Domain.csproj" />
     </ItemGroup>

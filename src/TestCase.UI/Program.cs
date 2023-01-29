@@ -1,11 +1,13 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using TestCase.Container;
+using TestCase.Container.Modules;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+RepositoryModule.AddDbContext(builder.Services, builder.Configuration);
 builder.Services.AddControllersWithViews();
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
@@ -14,6 +16,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
     Bootstrapper.RegisterModules(builder);
 });
 var app = builder.Build();
+
 var container = app.Services.GetAutofacRoot();
 Bootstrapper.SetContainer(container);
 // Configure the HTTP request pipeline.
@@ -33,6 +36,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Order}/{action=Index}/{id?}");
 
 app.Run();

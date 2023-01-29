@@ -1,0 +1,72 @@
+@model TestCase.Contract.Response.ResponseBase<TestCase.Contract.Response.Query.ListOrderResponse>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>List Orders</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<table class="table">
+    <tr>
+        <th scope="col">Order ID</th>
+        <th scope="col">Order Date</th>
+        <th scope="col">Ship Date</th>
+        <th scope="col">Sales</th>
+    </tr>
+    @foreach (var order in Model.Data.Orders)
+    {
+        <tr>
+            <td class="col">@order.OrderId</td>
+            <td class="col">@order.OrderDate</td>
+            <td class="col">@order.ShipDate</td>
+            <td class="col">@order.Sales</td>
+        </tr>
+    }
+</table>
+<div class="container">
+    <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script type="text/javascript">
+
+var xArray = [];
+var yArray = [];
+
+@foreach (var d in @Model.Data.ChartData.X)
+{
+    @:xArray.push("@d");
+}
+@foreach (var d in @Model.Data.ChartData.Y)
+{
+    @:yArray.push("@d");
+}
+
+    
+
+var xValues = xArray;
+var yValues = yArray;
+
+new Chart("myChart", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [{
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "rgba(0,0,255,1.0)",
+      borderColor: "rgba(0,0,255,0.1)",
+      data: yValues
+    }]
+  }
+});
+</script>
+</body>
+</html>
