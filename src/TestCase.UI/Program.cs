@@ -1,10 +1,21 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using TestCase.Container;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
+builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
+{
+    Bootstrapper.RegisterModules(builder);
+});
 var app = builder.Build();
-
+var container = app.Services.GetAutofacRoot();
+Bootstrapper.SetContainer(container);
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TestCase.Contract.Request.Query;
 using TestCase.UI.Models;
 
 namespace TestCase.UI.Controllers;
@@ -7,14 +9,18 @@ namespace TestCase.UI.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IMediator _mediator;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IMediator mediator)
     {
         _logger = logger;
+        _mediator = mediator;
     }
 
-    public IActionResult Index()
+    public async Task<ViewResult> Index()
     {
+        var response = await _mediator.Send(new HealthCheckQuery());
+        ViewBag.Message = response.Message;
         return View();
     }
 
