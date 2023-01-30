@@ -1,5 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TestCase.Contract.Request.Query;
+using TestCase.UI.Models.Account;
 
 namespace TestCase.UI.Controllers;
 
@@ -20,8 +22,16 @@ public class AccountController : Controller
     }
     
     [HttpPost]
-    public async Task<IActionResult> Login()
+    public async Task<IActionResult> Login(LoginModel loginModel, CancellationToken cancellationToken)
     {
-        return RedirectToAction("Index", "Order");
+        var response = await _mediator.Send(new LoginQuery()
+        {
+            Username = loginModel.Username,
+            Password = loginModel.Password
+        }, cancellationToken);
+        if(response.Success)
+            return RedirectToAction("Index", "Order");
+        return RedirectToAction("Index");
+        
     }
 }
