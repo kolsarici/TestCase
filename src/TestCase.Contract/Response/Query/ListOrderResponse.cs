@@ -5,7 +5,7 @@ namespace TestCase.Contract.Response.Query;
 public class ListOrderResponse
 {
     public List<Order> Orders { get; set; }
-    public ChartData ChartData { get; set; }
+    public ChartData MonthlyOrderCount { get; set; }
 }
 
 public class ChartData

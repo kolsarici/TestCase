@@ -17,7 +17,7 @@ public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, ResponseBas
     public async Task<ResponseBase<ListOrderResponse>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
     {
         var yValues = new List<string>();
-        var orders = await _orderRepository.AllAsync();
+        var orders = await _orderRepository.AllAsync(cancellationToken);
         var months = orders.OrderBy(o => o.OrderDate.Month).Select(o => o.OrderDate.Month).Distinct();
         foreach (var month in months)
         {
@@ -28,7 +28,7 @@ public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, ResponseBas
             Data = new ListOrderResponse()
             {
                 Orders = orders,
-                ChartData = new ChartData()
+                MonthlyOrderCount = new ChartData()
                 {
                     X = orders.OrderBy(o => o.OrderDate.Month).Select(o => o.OrderDate.ToString("MMM")).Distinct()
                         .ToArray(),

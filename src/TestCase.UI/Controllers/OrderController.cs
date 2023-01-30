@@ -17,9 +17,9 @@ public class OrderController : Controller
         _mediator = mediator;
     }
     
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new GetOrdersQuery());
+        var response = await _mediator.Send(new GetOrdersQuery(), cancellationToken);
         return View(response);
     }
     
@@ -29,7 +29,7 @@ public class OrderController : Controller
     }
     
     [HttpPost]
-    public async Task<IActionResult> CreateOrder(CreateOrderModel createOrderModel)
+    public async Task<IActionResult> CreateOrder(CreateOrderModel createOrderModel, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new CreateOrderCommand()
         {
@@ -40,7 +40,7 @@ public class OrderController : Controller
             Profit = createOrderModel.Profit,
             Quantity = createOrderModel.Quantity,
             Sales = createOrderModel.Sales
-        });
+        }, cancellationToken);
         return RedirectToAction("Index");
     }
 }

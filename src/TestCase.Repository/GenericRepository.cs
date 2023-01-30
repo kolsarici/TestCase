@@ -14,31 +14,31 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
             _entities = context.Set<TEntity>();
         }
 
-        public async Task<TEntity?> GetByIdAsync(Guid id, bool isActive = true)
+        public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return await _entities.SingleOrDefaultAsync(s => s.Id == id && s.IsActive == isActive);
+            return await _entities.SingleOrDefaultAsync(s => s.Id == id && s.IsActive, cancellationToken: cancellationToken);
         }
 
-        public async Task<List<TEntity>> AllAsync(bool isActive = true)
+        public async Task<List<TEntity>> AllAsync(CancellationToken cancellationToken)
         {
-            return await _entities.Where(s => s.IsActive == isActive).AsQueryable().ToListAsync();
+            return await _entities.Where(s => s.IsActive).AsQueryable().ToListAsync(cancellationToken);
         }
 
-        public async Task<TEntity?> FindByAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity?> FindByAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
         {
-            return await _entities.SingleOrDefaultAsync(predicate);
+            return await _entities.SingleOrDefaultAsync(predicate, cancellationToken);
         }
 
-        public async Task<List<TEntity>> FilterByAsync(Expression<Func<TEntity, bool>> predicate, bool isActive = true)
+        public async Task<List<TEntity>> FilterByAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
         {
-            return await _entities.Where(predicate).Where(s => s.IsActive == isActive).ToListAsync();
+            return await _entities.Where(predicate).Where(s => s.IsActive).ToListAsync(cancellationToken);
         }
 
-        public async Task SaveAsync(TEntity entity)
+        public async Task SaveAsync(TEntity entity, CancellationToken cancellationToken)
         {
             try
             {
-                await _entities.AddAsync(entity);
+                await _entities.AddAsync(entity, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -52,9 +52,9 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
             return entityEntry.Entity;
         }
 
-        public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, bool isActive = true)
+        public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
         {
-            return await _entities.Where(predicate).Where(s => s.IsActive == isActive).CountAsync();
+            return await _entities.Where(predicate).Where(s => s.IsActive).CountAsync(cancellationToken);
         }
 
         public void Delete(TEntity entity)
