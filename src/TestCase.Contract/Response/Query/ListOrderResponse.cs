@@ -6,6 +6,7 @@ public class ListOrderResponse
 {
     public List<Order> Orders { get; set; }
     public ChartData MonthlyOrderCount { get; set; }
+    public ChartData MonthlySaleSum { get; set; }
 }
 
 public class ChartData

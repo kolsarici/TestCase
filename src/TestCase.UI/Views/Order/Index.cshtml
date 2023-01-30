@@ -9,10 +9,29 @@
 <head>
     <title>List Orders</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+    .chartCard { 
+    width: 100vw;
+    height: calc(100vh - 40px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+    .chartBox {
+    width: 700px;
+    padding: 20px;
+    }
+    </style>
 </head>
 <body>
-<div class="container">
-    <canvas id="monthlyOrderCount" style="width:100%;max-width:600px"></canvas>
+<div class="chartCard">
+    <div class="chartBox">
+        <canvas id="monthlyOrderCount"></canvas>
+    </div>
+    <div class="chartBox">
+        <canvas id="monthlySaleSum"></canvas>
+    </div>
 </div>
 <table class="table">
     <tr>
@@ -38,6 +57,8 @@
 var xArray = [];
 var yArray = [];
 
+var ySaleSum = [];
+
 @foreach (var d in @Model.Data.MonthlyOrderCount.X)
 {
     @:xArray.push("@d");
@@ -46,9 +67,14 @@ var yArray = [];
 {
     @:yArray.push("@d");
 }
+@foreach (var d in @Model.Data.MonthlySaleSum.Y)
+{
+    @:ySaleSum.push("@d");
+}
 
 var xValues = xArray;
 var yValues = yArray;
+var yValuesSaleSum = ySaleSum;
 
 new Chart("monthlyOrderCount", {
   type: "line",
@@ -61,6 +87,21 @@ new Chart("monthlyOrderCount", {
       backgroundColor: "rgba(0,0,255,1.0)",
       borderColor: "rgba(0,0,255,0.1)",
       data: yValues
+    }]
+  }
+});
+
+new Chart("monthlySaleSum", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [{
+      fill: false,
+      label: 'Total Sum',
+      lineTension: 0,
+      backgroundColor: "rgba(0,0,255,1.0)",
+      borderColor: "rgba(245,80,80,0.5)",
+      data: yValuesSaleSum
     }]
   }
 });
