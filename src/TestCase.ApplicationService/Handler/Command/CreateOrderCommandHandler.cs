@@ -29,7 +29,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Res
             Sales = request.Sales,
             ShipDate = request.ShipDate,
             Quantity = request.Quantity
-        });
+        }, cancellationToken);
         await _dbContextHandler.SaveChangesAsync();
         return new ResponseBase<string>()
         {
